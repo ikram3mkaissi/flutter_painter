@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:fireworks/constants.dart';
 import 'package:fireworks/provider/option_model.dart';
+import 'package:fireworks/provider/points.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -206,7 +207,7 @@ color: Colors.white,
           Expanded(
               flex:1,
               child:  GestureDetector (
-                  onTap: (){ _sliderPressed++; callSlider();   Provider.of<optionModel> (context,listen: false).optionType = option_type.eraser; },
+                  onTap: (){   Provider.of<optionModel> (context,listen: false).optionType = option_type.eraser;Provider.of<pointsModel> (context,listen: false).center=[]; },
                   child:Container(
 
 

@@ -1,29 +1,21 @@
 import 'package:fireworks/constants.dart';
 import 'package:fireworks/provider/option_model.dart';
+import 'package:fireworks/provider/points.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:perfect_freehand/perfect_freehand.dart';
 
+import 'class/drawing.dart';
 
 
 
-class Drawing {
 
 
-  late  List<Point> points;
-
-  late  optionModel option;
-
-  Drawing({required this.option, required this.points});
-
-
-
-}
 
 class Canvas extends StatefulWidget {
-  const Canvas({Key? key,required this.option}) : super(key: key);
-
+   Canvas({Key? key,required this.option,required this.points}) : super(key: key);
+  pointsModel points;
   final optionModel option;
 
   @override
@@ -34,7 +26,7 @@ class _CanvasState extends State<Canvas> {
 
   final ValueNotifier<bool> _touched = ValueNotifier<bool>(false);
 
-      List<Drawing> _center= [];
+     // List<Drawing> widget.points.center= [];
 
 
 
@@ -43,17 +35,18 @@ class _CanvasState extends State<Canvas> {
 
     double width = MediaQuery. of(context). size. width ;
     double height = MediaQuery. of(context). size. height;
-    return SizedBox(
+    return Container(
         height: height,
         width: width,
+        color: Colors.white,
         child: Stack(
 
           children: [
 
 
-           _center != null? CustomPaint(
+           widget.points != null? CustomPaint(
 
-              painter :_customPainter(points:_center)
+              painter :_customPainter(points:widget.points.center)
             ):SizedBox(),
 
             ValueListenableBuilder<bool>(
@@ -61,7 +54,7 @@ class _CanvasState extends State<Canvas> {
                 builder: (BuildContext context, bool value, Widget? child) {
                   return
                     value?
-                    Positioned.fromRect(rect: Rect.fromCenter(center: Offset(_center.last.points.last.x,_center.last.points.last.y), width: widget.option.size.width, height: widget.option.size.height),
+                    Positioned.fromRect(rect: Rect.fromCenter(center: Offset(widget.points.center.last.points.last.x,widget.points.center.last.points.last.y), width: widget.option.size.width, height: widget.option.size.height),
                         child: Container(decoration: BoxDecoration(shape: BoxShape.circle,color: widget.option.color), ))
 
                         :SizedBox();
@@ -73,10 +66,10 @@ class _CanvasState extends State<Canvas> {
              /*   onTapDown: (details)
                 {
                   print('tapDown');
-                  if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.last) {
+                  if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.last) {
                   setState(() {
                     _touched.value=true;
-                    _center.add([Point(details.localPosition.dx,details.localPosition.dy)]) ;
+                    widget.points.center.add([Point(details.localPosition.dx,details.localPosition.dy)]) ;
                   });
 }
 
@@ -94,10 +87,10 @@ class _CanvasState extends State<Canvas> {
                /* onLongPressDown:  (details)
                 {
                   print('onLongPressDown');
-                  if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.last) {
+                  if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.last) {
                   setState(() {
                     _touched.value=true;
-                    _center.add([Point(details.localPosition.dx,details.localPosition.dy)]) ;
+                    widget.points.center.add([Point(details.localPosition.dx,details.localPosition.dy)]) ;
                   });
                 }
                 },*/
@@ -114,9 +107,9 @@ class _CanvasState extends State<Canvas> {
                 onLongPressMoveUpdate: (details)
                 {
                  // print('onLongPressMoveUpdate');
-                  if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.points) {
+                  if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.points) {
                     setState(() {
-                      _center.last.points.add(Point(
+                      widget.points.center.last.points.add(Point(
                           details.localPosition.dx, details.localPosition.dy));
                     });
                   }
@@ -125,17 +118,17 @@ class _CanvasState extends State<Canvas> {
                 /*
                 onPanStart: (details){
                   print('onPanStart');
-                  if( _center.isEmpty    ) {
+                  if( widget.points.center.isEmpty    ) {
                     setState(() {
-                      _center.add([
+                      widget.points.center.add([
                         Point(
                             details.localPosition.dx, details.localPosition.dy)
                       ]);
                     });
                   }
-                  else if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.last) {
+                  else if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.last) {
                     setState(() {
-                      _center.add([
+                      widget.points.center.add([
                         Point(
                             details.localPosition.dx, details.localPosition.dy)
                       ]);
@@ -147,18 +140,18 @@ class _CanvasState extends State<Canvas> {
                 {
 
               //    print('onPanDown');
-                if( _center.isEmpty   ) {
+                if( widget.points.center.isEmpty   ) {
 
                   setState(() {
-                    _center.add(new Drawing( points: [
+                    widget.points.center.add(new Drawing( points: [
                       Point(
                           details.localPosition.dx, details.localPosition.dy)
                     ], option:new optionModel(widget.option.optionType, widget.option.color, widget.option.size) ));
                   });
                 }
-                else if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.points.last) {
+                else if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.points.last) {
                   setState(() {
-                    _center.add(new Drawing( points: [
+                    widget.points.center.add(new Drawing( points: [
                       Point(
                           details.localPosition.dx, details.localPosition.dy)
                     ], option:new optionModel(widget.option.optionType, widget.option.color, widget.option.size) ));
@@ -167,9 +160,9 @@ class _CanvasState extends State<Canvas> {
             },
                 onPanUpdate:(details)
                 {  // print('onPanUpdate');
-                if(Point(details.localPosition.dx,details.localPosition.dy) != _center.last.points.last) {
+                if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.points.last) {
                   setState(() {
-                    _center.last.points.add(Point(
+                    widget.points.center.last.points.add(Point(
                         details.localPosition.dx, details.localPosition.dy));
                   });
                 }
