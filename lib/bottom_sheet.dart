@@ -80,7 +80,6 @@ class _BottomSheetState extends State<BottomSheet> {
 
 
 
-        print('showSlider');
 
         setState(
                 ( ) {
@@ -117,6 +116,108 @@ class _BottomSheetState extends State<BottomSheet> {
 
 Stack(
   children: [
+ /* Positioned(left : 0, child:
+
+
+    SizedBox(
+      width: width,
+      height: 100,
+
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+
+        children: [
+          Spacer(),
+       Container(
+
+            margin: EdgeInsetsDirectional.all(10),
+            padding: EdgeInsetsDirectional.all(10),
+
+
+            height: 100,
+            width: 100,
+            child: RawMaterialButton(
+              elevation: 0,
+
+              child:Icon( Icons.undo,size: 50,), onPressed: () {
+                print('reset is pushed');
+                print(Provider.of<pointsModel> (context,listen: false).center.length);
+                if(Provider.of<pointsModel> (context,listen: false).center.length!=0)
+                  {
+                    Provider.of<pointsModel> (context,listen: false).backup.add( Provider.of<pointsModel> (context,listen: false).center.last);
+                    Provider.of<pointsModel> (context,listen: false).center =  Provider.of<pointsModel> (context,listen: false).center.sublist(0,Provider.of<pointsModel> (context,listen: false).center.length-1);
+
+
+                  }
+
+           },
+            ),
+          ),
+      Container(
+
+            margin: EdgeInsetsDirectional.all(10),
+            padding: EdgeInsetsDirectional.all(10),
+
+
+        height: 100,
+        width: 100,
+            child: RawMaterialButton(
+
+              elevation: 0,
+
+              child:Icon( Icons.redo,size: 50,), onPressed: () {
+print('backup pushed');
+print(Provider.of<pointsModel> (context,listen: false).backup.length);
+print(Provider.of<pointsModel> (context,listen: false).center.length);
+if(Provider.of<pointsModel> (context,listen: false).backup.length!=0) {
+  Provider
+      .of<pointsModel>(context, listen: false)
+      .center
+      .add(Provider
+      .of<pointsModel>(context, listen: false)
+      .backup
+      .last);
+  Provider
+      .of<pointsModel>(context, listen: false)
+      .backup = Provider
+      .of<pointsModel>(context, listen: false)
+      .backup
+      .sublist(0, Provider
+      .of<pointsModel>(context, listen: false)
+      .backup
+      .length - 1);
+}
+            },
+            ),
+          ),
+          Spacer(),
+        ],
+      ),
+    )), */
+    /*
+    Positioned(left : 0, child:
+        Container(
+
+          height: 100,
+            width: 50,
+          child: IconButton(
+            icon:Icon( Icons.arrow_back_outlined,size: 40,), onPressed: () {  },
+          ),
+        )
+
+    ),
+    Positioned(right : 0, child:
+    Container(
+
+      height: 100,
+      width: 50,
+      child: IconButton(
+        icon:Icon( Icons.arrow_forward_outlined,size: 40,), onPressed: () {  },
+      ),
+    )
+
+    ),*/
+
     ValueListenableBuilder<bool>(
         valueListenable: _showColor,
         builder: (BuildContext context, bool showColor, Widget? child) {
@@ -167,7 +268,7 @@ Stack(
 
        return Slider(
           min: 1,
-          max: 100,
+          max: 50,
           onChanged: (double value) { callSlider(); Provider.of<optionModel>(context,listen: false).size = Size(value,value) ; _size.value= value;  },
           value: size,
           thumbColor: Colors.black,
@@ -204,7 +305,7 @@ color: Colors.white,
                  ),
                          child: Icon(Icons.edit),
                    )) ),
-          Expanded(
+    /*      Expanded(
               flex:1,
               child:  GestureDetector (
                   onTap: (){   Provider.of<optionModel> (context,listen: false).optionType = option_type.eraser;Provider.of<pointsModel> (context,listen: false).center=[]; },
@@ -219,8 +320,75 @@ color: Colors.white,
                         border: Border.all(color: Colors.black)
                     ),
                     child: Icon(Icons.delete),
-                  )) ),
+                  )) ),*/
 
+       Expanded(
+
+              flex:1,
+              child: GestureDetector (
+                  onTap: (){
+
+                  if(Provider.of<pointsModel> (context,listen: false).center.length!=0)
+                  {
+                    Provider.of<pointsModel> (context,listen: false).backup.add( Provider.of<pointsModel> (context,listen: false).center.last);
+                    Provider.of<pointsModel> (context,listen: false).center =  Provider.of<pointsModel> (context,listen: false).center.sublist(0,Provider.of<pointsModel> (context,listen: false).center.length-1);
+
+
+                  }
+
+                  },
+                  child: Container(
+
+
+                    margin: EdgeInsetsDirectional.all(10),
+                    padding: EdgeInsetsDirectional.all(20),
+
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black)
+                    ),
+                    child: Icon( Icons.undo,size: 30,),
+
+                  ))),
+
+          Expanded(
+
+              flex:1,
+              child: GestureDetector (
+                  onTap: (){
+                //  print(Provider.of<pointsModel> (context,listen: false).backup.length);
+                 // print(Provider.of<pointsModel> (context,listen: false).center.length);
+                  if(Provider.of<pointsModel> (context,listen: false).backup.length!=0) {
+                    Provider
+                        .of<pointsModel>(context, listen: false)
+                        .center
+                        .add(Provider
+                        .of<pointsModel>(context, listen: false)
+                        .backup
+                        .last);
+                    Provider
+                        .of<pointsModel>(context, listen: false)
+                        .backup = Provider
+                        .of<pointsModel>(context, listen: false)
+                        .backup
+                        .sublist(0, Provider
+                        .of<pointsModel>(context, listen: false)
+                        .backup
+                        .length - 1);
+                  }},
+                  child: Container(
+
+
+                    margin: EdgeInsetsDirectional.all(10),
+                    padding: EdgeInsetsDirectional.all(20),
+
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black)
+                    ),
+                    child: Icon( Icons.redo,size: 30,)
+                  )) ),
+/*
           Expanded(
               flex:1,
               child:  GestureDetector (
@@ -237,6 +405,8 @@ color: Colors.white,
                     ),
                     child: Icon(Icons.text_fields_rounded),
                   )) ),
+
+          */
           Expanded(
               flex:1,
               child:  GestureDetector (

@@ -84,33 +84,35 @@ class _CanvasState extends State<Canvas> {
 
 
                 },*/
-               /* onLongPressDown:  (details)
+                onLongPressDown:  (details)
                 {
-                  print('onLongPressDown');
-                  if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.last) {
+                  widget.points.last = 1;
+             //     print('onLongPressDown');
+                /*  if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.last) {
                   setState(() {
                     _touched.value=true;
                     widget.points.center.add([Point(details.localPosition.dx,details.localPosition.dy)]) ;
                   });
-                }
-                },*/
-              /*  onLongPressUp: ()
+                }*/
+                },
+                onLongPressUp: ()
                 {
-                  print('onLongPressUp');
-                  setState(() {
+               //   print('onLongPressUp');
+                 /* setState(() {
                     _touched.value=false;
 
                   });
+*/
 
-
-                },*/
+                },
                 onLongPressMoveUpdate: (details)
-                {
-                 // print('onLongPressMoveUpdate');
+                {    widget.points.last ++;
+               //   print('onLongPressMoveUpdate');
                   if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.points) {
                     setState(() {
                       widget.points.center.last.points.add(Point(
                           details.localPosition.dx, details.localPosition.dy));
+
                     });
                   }
 
@@ -138,7 +140,7 @@ class _CanvasState extends State<Canvas> {
                 },*/
                 onPanDown:  (details)
                 {
-
+                  widget.points.last = 1;
               //    print('onPanDown');
                 if( widget.points.center.isEmpty   ) {
 
@@ -159,7 +161,9 @@ class _CanvasState extends State<Canvas> {
                 }
             },
                 onPanUpdate:(details)
-                {  // print('onPanUpdate');
+                {
+                  widget.points.last ++;
+                //  print('onPanUpdate');
                 if(Point(details.localPosition.dx,details.localPosition.dy) != widget.points.center.last.points.last) {
                   setState(() {
                     widget.points.center.last.points.add(Point(
@@ -168,14 +172,14 @@ class _CanvasState extends State<Canvas> {
                 }
 
                 },
-          /*      onPanEnd: (details)
+               onPanEnd: (details)
                 {
-                  print('onPanEnd');
-                  setState(() {
+              //    print('onPanEnd');
+                /*  setState(() {
                     _touched.value=false;
 
-                  });
-                }*/
+                  });*/
+                }
 
 
 

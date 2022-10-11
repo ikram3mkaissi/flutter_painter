@@ -10,8 +10,9 @@ import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:flutter_share/flutter_share.dart';
+
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,17 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
+
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -58,6 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   ScreenshotController screenshotController = ScreenshotController();
   void capture() async {
+
+    if (await Permission.manageExternalStorage.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -84,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () async {
-                print('capture called');
+
                 await screenshotController
                     .capture(delay: const Duration(milliseconds: 10))
                     .then((Uint8List? image) async {
@@ -98,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }).then((value) {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                });Provider.of<pointsModel> (context,listen: false).center=[];
+                });Provider.of<pointsModel> (context,listen: false).center=[];Provider.of<pointsModel> (context,listen: false).backup=[];
               },
             ),
           ],
@@ -106,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
-
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -116,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ChangeNotifierProvider(
               create: (context) =>
                   optionModel(option_type.pen, Colors.red, Size(1, 1))),
-          ChangeNotifierProvider(create: (context) => pointsModel([]))
+          ChangeNotifierProvider(create: (context) => pointsModel([],[]))
         ],
         child: Scaffold(
             backgroundColor: Colors.white,
