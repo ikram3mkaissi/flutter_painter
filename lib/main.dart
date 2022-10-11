@@ -12,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
   ScreenshotController screenshotController = ScreenshotController();
   void capture() async {
 
-    if (await Permission.manageExternalStorage.request().isGranted) {
       // Either the permission was already granted before or the user just granted it.
 
     showDialog<void>(
@@ -103,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
-  }
+
   }
   @override
   Widget build(BuildContext context) {
